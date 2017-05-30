@@ -1,2 +1,5 @@
 # psswrd
-A manager for password and encrypted files, thinking of crypto coins.
+A manager for passwords and encrypted files, thinking of crypto coins.
+
+##### This is just a beginning, please ignore it. I will update this README when a first version is ready
+
