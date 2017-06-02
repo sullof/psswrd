@@ -1,9 +1,10 @@
 {
   "name": "psswrd",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint -c .eslintrc 'src/**/*.js' 'test/**/*.js'",
-    "test": "mocha test/**/*.js"
+    "test": "export NODE_ENV=test && mocha test/**/*.js"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

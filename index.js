@@ -1,11 +1,14 @@
-
 const psswrd = require('./lib/Psswrd')
 
-var shell = require('simple-shell');
-shell.initialize(shellOptions)
+const shell = require('simple-shell');
+const commands = require('./lib/commands');
 
-// Register commands with the custom shell
-shell.registerCommand(cmdOptions)
+shell.initialize()
 
-// Start the console and show prompt
-shell.startConsole()
+commands.forEach(function(cmd) {
+  shell.registerCommand(cmd);
+});
+
+console.log('Type ' + 'help'.green + ' to get started. To get help for any command just suffix the comand with ' + 'help'.green);
+shell.startConsole();
+
