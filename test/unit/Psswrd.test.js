@@ -8,8 +8,8 @@ const assert = require('assert')
 const fs = require('../../lib/utils/fs')
 const Crypto = require('../../lib/utils/Crypto')
 const samples = require('../fixtures/samples')
-const {status} = require('../../lib/constants')
-const Items = require('../../lib/models/Items')
+const {status, keys} = require('../../lib/config/constants')
+const Manifest = require('../../lib/models/Manifest')
 
 describe('Psswrd', function () {
 
@@ -24,7 +24,7 @@ describe('Psswrd', function () {
   })
 
   after(function () {
-    // return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp'))
+    //return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp'))
   })
 
   it('should construct the instance', () => {
@@ -32,7 +32,7 @@ describe('Psswrd', function () {
         .then(p => {
           assert(p.db)
           assert(/\.psswrd$/.test(p.rootdir))
-          assert(p.db.dir === path.join(p.rootdir, 'data'))
+          assert(p.db.dir === path.join(p.rootdir, 'database'))
           assert(p.status <= status.INITIALIZED)
           psswrd = p;
           return Promise.resolve()
@@ -42,19 +42,42 @@ describe('Psswrd', function () {
   it('should initialize the store', () => {
     return psswrd.init()
         .then(() => {
-          assert(psswrd.index instanceof Items)
+          assert(psswrd.manifest instanceof Manifest)
           return Promise.resolve()
         })
   })
 
-  it('should set the master password', () => {
+  it('should return an error trying to login', () => {
+    return psswrd.login(password)
+        .catch(err => {
+          assert(err)
+          return Promise.resolve()
+        })
+  })
+
+  it('should signup and set up the master key', () => {
     return psswrd.signup(password)
         .then(() => {
-          assert(psswrd.index.data)
-          return psswrd.db.get('masterKey')
+          assert(psswrd.manifest.data)
+          return psswrd.db.get(keys.MASTERKEY)
         })
         .then(encryptedMasterKey => {
-          assert(encryptedMasterKey.length > 100)
+          assert(encryptedMasterKey)
+          return Promise.resolve()
+        })
+  })
+
+  it('should login and recover the master key', () => {
+    // the current status is OPERATIVE
+    psswrd.status--
+    // not it is READY
+    return psswrd.login(password)
+        .then(() => {
+          assert(psswrd.manifest.data)
+          return psswrd.db.get(reservedKeys.MASTERKEY)
+        })
+        .then(encryptedMasterKey => {
+          assert(encryptedMasterKey)
           return Promise.resolve()
         })
   })
