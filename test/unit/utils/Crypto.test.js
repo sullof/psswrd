@@ -21,7 +21,6 @@ describe('Crypto', function () {
     return Crypto.toBase64(plainStr)
         .then(b64 => {
           assert(b64 === base64Str)
-          return Promise.resolve()
         })
   })
 
@@ -29,7 +28,6 @@ describe('Crypto', function () {
     return Crypto.fromBase64(base64Str)
         .then(str => {
           assert(str === plainStr)
-          return Promise.resolve()
         })
   })
 
@@ -37,7 +35,6 @@ describe('Crypto', function () {
     return Crypto.toSHA256(plainStr, salt, 'hex')
         .then(hash256 => {
           assert(hash256 === hash)
-          return Promise.resolve()
         })
   })
 
@@ -45,7 +42,6 @@ describe('Crypto', function () {
     return Crypto.toAES(plainStr, password)
         .then(encrypted => {
           assert(encrypted === encryptedStr)
-          return Promise.resolve()
         })
   })
 
@@ -53,7 +49,6 @@ describe('Crypto', function () {
     return Crypto.fromAES(encryptedStr, password)
         .then(decrypted => {
           assert(decrypted === plainStr)
-          return Promise.resolve()
         })
   })
 
@@ -61,7 +56,6 @@ describe('Crypto', function () {
     return Promise.resolve(Crypto.isUuid(uuid))
         .then(is => {
           assert(is)
-          return Promise.resolve()
         })
   })
 
@@ -69,7 +63,6 @@ describe('Crypto', function () {
     return Promise.resolve(Crypto.getNewId())
         .then(newId => {
           assert(Crypto.isUuid(newId))
-          return Promise.resolve()
         })
   })
 

@@ -33,9 +33,8 @@ describe('Psswrd', function () {
           assert(p.db)
           assert(/\.psswrd$/.test(p.rootdir))
           assert(p.db.dir === path.join(p.rootdir, 'database'))
-          assert(p.status <= status.INITIALIZED)
+          assert(p.status === status.CONSTRUCTED)
           psswrd = p;
-          return Promise.resolve()
         })
   })
 
@@ -43,7 +42,7 @@ describe('Psswrd', function () {
     return psswrd.init()
         .then(() => {
           assert(psswrd.manifest instanceof Manifest)
-          return Promise.resolve()
+          assert(psswrd.status === status.INITIATED)
         })
   })
 
@@ -51,36 +50,40 @@ describe('Psswrd', function () {
     return psswrd.login(password)
         .catch(err => {
           assert(err)
-          return Promise.resolve()
         })
   })
 
   it('should signup and set up the master key', () => {
     return psswrd.signup(password)
         .then(() => {
-          assert(psswrd.manifest.data)
+          assert(psswrd.manifest.lastId === 0)
           return psswrd.db.get(keys.MASTERKEY)
         })
         .then(encryptedMasterKey => {
           assert(encryptedMasterKey)
-          return Promise.resolve()
+        })
+  })
+
+  it('should logout', () => {
+    return psswrd.logout()
+        .then(() => {
+          assert(psswrd.is(status.READY))
         })
   })
 
   it('should login and recover the master key', () => {
-    // the current status is OPERATIVE
-    psswrd.status--
-    // not it is READY
     return psswrd.login(password)
         .then(() => {
-          assert(psswrd.manifest.data)
-          return psswrd.db.get(reservedKeys.MASTERKEY)
-        })
-        .then(encryptedMasterKey => {
-          assert(encryptedMasterKey)
-          return Promise.resolve()
+          assert(psswrd.manifest.secrets)
         })
   })
+
+  // it('should add a secret', () => {
+  //   return psswrd.addSecret()
+  //       .then(() => {
+  //         assert(psswrd.manifest.secrets)
+  //       })
+  // })
 
 
 })
