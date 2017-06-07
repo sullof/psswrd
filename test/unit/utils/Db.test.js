@@ -10,7 +10,7 @@ const db = require('../../../lib/utils/Db')
 
 describe('Db', function () {
 
-  let dbDir = path.resolve(__dirname, '../../tmp/.psswrd/database2')
+  let dbDir = path.resolve(__dirname, '../../../tmp/.psswrd/database2')
   let someEncryptedData = 'c29tZXRpbWVzIGl0IHJhaW5z'
   let id
 

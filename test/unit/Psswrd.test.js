@@ -24,7 +24,7 @@ describe('Psswrd', function () {
   })
 
   after(function () {
-    //return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp'))
+    return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp'))
   })
 
   it('should construct the instance', () => {
