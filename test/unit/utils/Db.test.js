@@ -15,8 +15,8 @@ describe('Db', function () {
   let id
 
   it('should start the db', () => {
-    db.init(dbDir)
-    assert(fs.existsDir(dbDir))
+    return db.init(dbDir)
+        .then(() => assert(fs.existsDir(dbDir)))
   })
 
   it('should return a new id', () => {
