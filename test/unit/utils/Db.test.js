@@ -6,11 +6,12 @@ const path = require('path')
 const assert = require('assert')
 
 const fs = require('../../../lib/utils/fs')
-const db = require('../../../lib/utils/Db')
+const Db = require('../../../lib/utils/Db')
+const db = new Db
 
 describe('Db', function () {
 
-  let dbDir = path.resolve(__dirname, '../../../tmp/.psswrd/database2')
+  let dbDir = path.resolve(__dirname, '../../../tmp/db2')
   let someEncryptedData = 'c29tZXRpbWVzIGl0IHJhaW5z'
   let id
 
