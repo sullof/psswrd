@@ -14,7 +14,7 @@ const Crypto = require('../../../lib/utils/Crypto')
 describe('Secret', function () {
 
   let psswrd
-  let dbDir = path.resolve(__dirname, '../../../tmp/db2')
+  let dbDir = path.resolve(__dirname, '../../../tmp/.secret')
   let db = new Db
 
   let secret
@@ -32,7 +32,7 @@ describe('Secret', function () {
   })
 
   after(function () {
-    // return fs.emptyDirAsync(path.resolve(__dirname, '../../../tmp/db2'))
+    return fs.emptyDirAsync(dbDir)
   })
 
   it('should construct a Secret instance', () => {
@@ -98,6 +98,12 @@ describe('Secret', function () {
         .then(s => {
           assert(secret.content.email === options.email)
         })
+  })
+
+
+  it('should empty the secret onClose', () => {
+    secret.onClose()
+    assert(secret.id === undefined)
   })
 
 

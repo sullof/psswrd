@@ -7,7 +7,6 @@ const assert = require('assert')
 
 const fs = require('../../lib/utils/fs')
 const Crypto = require('../../lib/utils/Crypto')
-// const samples = require('../fixtures/samples')
 const {status, keys} = require('../../lib/config/constants')
 const Manifest = require('../../lib/models/Manifest')
 
@@ -15,23 +14,21 @@ describe('Psswrd', function () {
 
   let psswrd
   let password = 'a very yellow trip on a ferryboat in alaska'
-  // let masterKey
-  let secret = {
+  let secretOptions = {
     name: 'MyBank',
     content: {
       email: 'you@example.com',
       password: '8su3^%h2lK'
     }
   }
+  let secretId
 
   before(function () {
     return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp/.psswrd'))
-        // .then(() => Crypto.fromBase64(samples.base64MasterKey))
-        // .then(key => masterKey = key)
   })
 
   after(function () {
-    // return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp'))
+    // return fs.emptyDirAsync(path.resolve(__dirname, '../../tmp/.psswrd'))
   })
 
   it('should construct the instance', () => {
@@ -63,7 +60,7 @@ describe('Psswrd', function () {
   it('should signup and set up the master key', () => {
     return psswrd.signup(password)
         .then(() => {
-          assert(psswrd.manifest.lastId === 0)
+          assert(psswrd.manifest.lastUpdate > Date.now() - 10)
           return psswrd.db.get(keys.MASTERKEY)
         })
         .then(encryptedMasterKey => {
@@ -85,15 +82,23 @@ describe('Psswrd', function () {
         })
   })
 
-  // it('should add a secret', () => {
-  //   return psswrd.setSecret(secret)
-  //       .then(() => {
-  //
-  //         console.log(psswrd.manifest.toJSON(true))
-  //
-  //         assert(psswrd.manifest.secrets)
-  //       })
-  // })
+  it('should add a secret', () => {
+    return psswrd.setSecret(secretOptions)
+        .then(() => {
+          assert(psswrd.manifest.toJSON().s[0].n === secretOptions.name)
+          secretId = psswrd.manifest.toJSON().s[0].i
+        })
+  })
+
+  it('should logout and after logging in again recover the secret', () => {
+    return psswrd.logout()
+        .then(() => psswrd.login(password))
+        .then(() => {
+          assert(psswrd.manifest.secrets[secretId])
+        })
+  })
+
+
 
 
 })

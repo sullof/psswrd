@@ -11,9 +11,13 @@ const db = new Db
 
 describe('Db', function () {
 
-  let dbDir = path.resolve(__dirname, '../../../tmp/db2')
+  let dbDir = path.resolve(__dirname, '../../../tmp/.db')
   let someEncryptedData = 'c29tZXRpbWVzIGl0IHJhaW5z'
   let id
+
+  after(function () {
+    return fs.emptyDirAsync(dbDir)
+  })
 
   it('should start the db', () => {
     return db.init(dbDir)
