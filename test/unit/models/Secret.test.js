@@ -4,12 +4,15 @@
 
 const path = require('path')
 const assert = require('assert')
+function rRequire (m) {
+  return require(path.resolve(process.cwd(), m))
+}
 
-const fs = require('../../../lib/utils/fs')
-const { SYNC } = require('../../../lib/config/constants')
-const Secret = require('../../../lib/models/Secret')
-const Db = require('../../../lib/utils/Db')
-const Crypto = require('../../../lib/utils/Crypto')
+const fs = rRequire('./lib/utils/fs')
+const { SYNC } = rRequire('./lib/config/constants')
+const Secret = rRequire('./lib/models/Secret')
+const Db = rRequire('./lib/utils/Db')
+const Crypto = rRequire('./lib/utils/Crypto')
 
 describe('Secret', function () {
 

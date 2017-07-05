@@ -5,9 +5,13 @@
 const path = require('path')
 const assert = require('assert')
 
-const fs = require('../../lib/utils/fs')
-const {status, keys} = require('../../lib/config/constants')
-const Manifest = require('../../lib/models/Manifest')
+function rRequire (m) {
+  return require(path.resolve(process.cwd(), m))
+}
+
+const fs = rRequire('./lib/utils/fs')
+const {status, keys} = rRequire('./lib/config/constants')
+const Manifest = rRequire('./lib/models/Manifest')
 
 describe('Psswrd', function () {
 
@@ -31,7 +35,7 @@ describe('Psswrd', function () {
   })
 
   it('should construct the instance', () => {
-    return Promise.resolve(require('../../lib/Psswrd'))
+    return Promise.resolve(rRequire('./lib/Psswrd'))
         .then(p => {
           assert(p.db)
           assert(/\.psswrd$/.test(p.rootdir))

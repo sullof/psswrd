@@ -3,8 +3,13 @@
 /* globals Promise */
 
 const assert = require('assert')
+const path = require('path')
 
-const Crypto = require('../../../lib/utils/Crypto')
+function rRequire (m) {
+  return require(path.resolve(process.cwd(), m))
+}
+
+const Crypto = rRequire('./lib/utils/Crypto')
 
 describe('Crypto', function () {
 
