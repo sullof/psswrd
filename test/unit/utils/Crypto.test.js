@@ -2,7 +2,6 @@
 
 /* globals Promise */
 
-const path = require('path')
 const assert = require('assert')
 
 const Crypto = require('../../../lib/utils/Crypto')

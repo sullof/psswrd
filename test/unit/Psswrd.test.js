@@ -6,7 +6,6 @@ const path = require('path')
 const assert = require('assert')
 
 const fs = require('../../lib/utils/fs')
-const Crypto = require('../../lib/utils/Crypto')
 const {status, keys} = require('../../lib/config/constants')
 const Manifest = require('../../lib/models/Manifest')
 
@@ -38,7 +37,7 @@ describe('Psswrd', function () {
           assert(/\.psswrd$/.test(p.rootdir))
           assert(p.db.dir === path.join(p.rootdir, 'database'))
           assert(p.status === status.CONSTRUCTED)
-          psswrd = p;
+          psswrd = p
         })
   })
 
@@ -97,8 +96,6 @@ describe('Psswrd', function () {
           assert(psswrd.manifest.secrets[secretId])
         })
   })
-
-
 
 
 })

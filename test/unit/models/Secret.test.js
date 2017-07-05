@@ -6,14 +6,13 @@ const path = require('path')
 const assert = require('assert')
 
 const fs = require('../../../lib/utils/fs')
-const {SYNC} = require('../../../lib/config/constants')
+const { SYNC } = require('../../../lib/config/constants')
 const Secret = require('../../../lib/models/Secret')
 const Db = require('../../../lib/utils/Db')
 const Crypto = require('../../../lib/utils/Crypto')
 
 describe('Secret', function () {
 
-  let psswrd
   let dbDir = path.resolve(__dirname, '../../../tmp/.secret')
   let db = new Db
 

@@ -6,7 +6,7 @@ const path = require('path')
 const assert = require('assert')
 
 const fs = require('../../../lib/utils/fs')
-const {SYNC} = require('../../../lib/config/constants')
+const { SYNC } = require('../../../lib/config/constants')
 const Manifest = require('../../../lib/models/Manifest')
 const Db = require('../../../lib/utils/Db')
 const Crypto = require('../../../lib/utils/Crypto')
@@ -26,15 +26,6 @@ describe('Manifest', function () {
       password: '8su3^%h2lK'
     }
   }
-
-  let secretOptions2 = {
-    name: 'Mycoin',
-    content: {
-      pin: '1234',
-      publicKey: '0x73yrhd8347h4h4y4rur7322iehrhiry3'
-    }
-  }
-
 
   before(function () {
     db.init(dbDir, SYNC)
