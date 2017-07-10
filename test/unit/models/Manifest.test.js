@@ -42,7 +42,7 @@ describe('Manifest', function () {
 
     return manifest.init(masterKey)
         .then(() => {
-          assert(manifest.lastUpdate > Date.now() - 10)
+          assert(manifest.updatedAt > Crypto.timestamp() - 1)
         })
   })
 

@@ -10,6 +10,7 @@ function rRequire (m) {
 }
 
 const fs = rRequire('./lib/utils/fs')
+const Crypto = rRequire('./lib/utils/Crypto')
 const {status, keys} = rRequire('./lib/config/constants')
 const Manifest = rRequire('./lib/models/Manifest')
 
@@ -21,7 +22,8 @@ describe('Psswrd', function () {
     name: 'MyBank',
     content: {
       email: 'you@example.com',
-      password: '8su3^%h2lK'
+      password: '8su3^%h2lK',
+      publicKey: '0xyehdtwgd63tegdy3645et3gd'
     }
   }
   let secretId
@@ -63,7 +65,7 @@ describe('Psswrd', function () {
   it('should signup and set up the master key', () => {
     return psswrd.signup(password)
         .then(() => {
-          assert(psswrd.manifest.lastUpdate > Date.now() - 10)
+          assert(psswrd.manifest.updatedAt > Crypto.timestamp() - 1)
           return psswrd.db.get(keys.MASTERKEY)
         })
         .then(encryptedMasterKey => {

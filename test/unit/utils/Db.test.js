@@ -25,6 +25,7 @@ describe('Db', function () {
   })
 
   it('should return a new id', () => {
+
     return db.newId()
         .then(newId => {
           return Promise.resolve(assert(id = newId))
